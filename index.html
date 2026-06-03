@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Mêcanica</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#000000;
+        color:rgb(0, 0, 0);
+        padding:20px;
+        max-width:900px;
+        margin:auto;
+    }
+
+    h1{
+        text-align:center;
+        color:#b700ff;
+    }
+
+    .categoria{
+        background:#fffafa;
+        padding:15px;
+        border-radius:10px;
+        margin-bottom:20px;
+    }
+
+    label{
+        display:block;
+        margin:10px 0;
+    }
+
+    input[type="number"]{
+        width:80px;
+        padding:5px;
+        border-radius:5px;
+        border:none;
+        margin-left:5px;
+    }
+
+    button{
+        width:100%;
+        padding:15px;
+        background:#b700ff;
+        color:rgb(255, 255, 255);
+        border:none;
+        border-radius:10px;
+        font-size:18px;
+        cursor:pointer;
+    }
+
+    button:hover{
+        background:#000000;
+    }
+
+    #resultado{
+        margin-top:20px;
+        font-size:20px;
+        text-align:center;
+        font-weight:bold;
+        background:#ffffff;
+        padding:20px;
+        border-radius:10px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Calculadora Mêcanica</h1>
+
+<div class="categoria">
+    <h2>Serviços Gerais</h2>
+
+    <label><input type="checkbox" value="200"> Lataria ($200)</label>
+    <label><input type="checkbox" value="700"> Motor ($700)</label>
+    <label><input type="checkbox" value="750"> Reparo ECU ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Kit Freio ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Filtro de Ar ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Escape Esportivo ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Turbo ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Intercooler ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Suspensão 5 ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Racing Clutch ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Coletor de Admissão ($750)</label>
+    <label><input type="checkbox" value="750"> Reparo Sistema de Combustível ($750)</label>
+</div>
+
+<div class="categoria">
+    <h2>Peças</h2>
+
+    <label><input type="checkbox" value="7500"> ECU Stage 1 ($7.500)</label>
+    <label><input type="checkbox" value="13750"> Kit Freio Stage 2 ($13.750)</label>
+    <label><input type="checkbox" value="9400"> Filtro de Ar Stage 2 ($9.400)</label>
+    <label><input type="checkbox" value="15000"> Escape Esportivo Stage 2 ($15.000)</label>
+    <label><input type="checkbox" value="18800"> Turbo Stage 3 ($18.800)</label>
+    <label><input type="checkbox" value="9400"> Intercooler Stage 3 ($9.400)</label>
+    <label><input type="checkbox" value="9400"> Suspensão 5 Stage 3 ($9.400)</label>
+    <label><input type="checkbox" value="9400"> Racing Clutch Stage 3 ($9.400)</label>
+    <label><input type="checkbox" value="9400"> Coletor de Admissão Stage 3 ($9.400)</label>
+    <label><input type="checkbox" value="9400"> Sistema de Combustível Stage 3 ($9.400)</label>
+</div>
+
+<div class="categoria">
+    <h2>Outros</h2>
+
+     <label>
+        Retirar Peças ($750 cada):
+        <input type="number" id="retirarPecas" min="0" value="0">
+    </label>
+
+    <label>
+        Colocar Peças ($750 cada):
+        <input type="number" id="colocarPecas" min="0" value="0">
+    </label>
+    
+    <label>
+        Lockpick ($250 cada):
+        <input type="number" id="lockpick" min="0" value="0">
+    </label>
+
+    <label>
+        Lockpick Avançada ($500 cada):
+        <input type="number" id="lockpickAv" min="0" value="0">
+    </label>
+
+    <label>
+        Kit Reparo ($2.500 cada):
+        <input type="number" id="kitReparo" min="0" value="0">
+    </label>
+
+</div>
+
+<div class="categoria">
+    <h2>Desconto</h2>
+
+    <label>
+        Desconto (%):
+        <input type="number" id="desconto" min="0" max="100" value="0">
+    </label>
+</div>
+
+<button onclick="calcular()">Calcular Total</button>
+
+<div id="resultado">
+    Total: $0
+</div>
+
+<script>
+function calcular() {
+
+    let total = 0;
+
+    document.querySelectorAll('input[type="checkbox"]:checked')
+        .forEach(item => {
+            total += Number(item.value);
+        });
+
+    // Quantidades de retirar e colocar peças
+    total += Number(document.getElementById('retirarPecas').value) * 750;
+    total += Number(document.getElementById('colocarPecas').value) * 750;
+
+    // Outros
+    total += Number(document.getElementById('lockpick').value) * 250;
+    total += Number(document.getElementById('lockpickAv').value) * 500;
+    total += Number(document.getElementById('kitReparo').value) * 2500;
+
+    // Desconto
+    const desconto = Number(document.getElementById('desconto').value);
+    const valorDesconto = total * (desconto / 100);
+    const totalFinal = total - valorDesconto;
+
+    document.getElementById('resultado').innerHTML = `
+        Subtotal: $${total.toLocaleString('pt-BR')}<br><br>
+        Desconto: ${desconto}% (-$${valorDesconto.toLocaleString('pt-BR')})<br><br>
+        <span style="font-size:28px;color:#00ff88;">
+            Total Final: $${totalFinal.toLocaleString('pt-BR')}
+        </span>
+    `;
+}
+</script>
+
+</body>
+</html>
